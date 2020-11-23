@@ -7,6 +7,8 @@ public void setup()
   
   behaviours.add(new SpaceShip());
   behaviours.add(new Walls());
+  behaviours.add(new Asteroid());
+
 
     
   rectMode(CENTER);
@@ -29,15 +31,15 @@ public void draw()
         
         if(b != c)
         {
-          for(int k = 0; k < b.colliders.length; k++) 
+          for(int k = 0; k < b.EdgeColliders().size(); k++) 
           {
-            for(int l = 0; l < c.colliders.length; l++) 
+            for(int l = 0; l < c.EdgeColliders().size(); l++) 
             {
               PVector v = new PVector(b.transform.velocity.x, b.transform.velocity.y);
                
-              if(LinesIntersect(b.colliders[k].positionA, b.colliders[k].positionB, c.colliders[l].positionA, c.colliders[l].positionB))
+              if(LinesIntersect(b.EdgeColliders().get(k).positionA, b.EdgeColliders().get(k).positionB, c.EdgeColliders().get(l).positionA, c.EdgeColliders().get(l).positionB))
               {
-                float dp = DotProduct(v.normalize(), c.colliders[l].Normal());
+                float dp = DotProduct(v.normalize(), c.EdgeColliders().get(l).Normal());
                 if(dp < 0)
                 {
                   b.transform.velocity = new PVector(0, 0);
@@ -51,84 +53,4 @@ public void draw()
       b.Update();
     }
   } 
-}
-
-public class MonoBehaviour
-{
-  public boolean enabled = true;
-  
-  public Transform transform = new Transform();;
-  public Collider[] colliders = new Collider[0];
- 
-  public void Update()
-  {
-    for(int i = 0; i < colliders.length; i++) 
-    {
-      PVector tempPositionA = new PVector(transform.position.x, transform.position.y);
-      PVector tempPositionB = new PVector(transform.position.x, transform.position.y);
-      colliders[i].positionA = tempPositionA.add(colliders[i].offsetA);
-      colliders[i].positionB = tempPositionB.add(colliders[i].offsetB);
-      
-      stroke(255);
-      line(colliders[i].positionA.x, colliders[i].positionA.y, colliders[i].positionB.x, colliders[i].positionB.y);
-    }
-  }
-}
-
-public class Transform
-{
-  public PVector position;
-  public PVector direction;
-  public PVector scale;
-  public PVector velocity;
-  
-  public Transform()
-  {
-    position = new PVector(0, 0);
-    direction = new PVector(0, 0);
-    scale = new PVector(0, 0);
-    velocity = new PVector(0, 0);
-  }
-}
-
-public class Collider
-{
-  PVector positionA;
-  PVector positionB;
-  PVector offsetA;
-  PVector offsetB;
-  
-  PVector defaultNormal;
-  
-  public Collider(PVector offsetA, PVector offsetB)
-  {
-    this.offsetA = offsetA;
-    this.offsetB = offsetB;
-    
-    positionA = new PVector(0, 0);
-    positionB = new PVector(0, 0);
-  }
-  
-  public Collider(PVector offsetA, PVector offsetB, PVector normal)
-  {
-    this.offsetA = offsetA;
-    this.offsetB = offsetB;
-    
-    defaultNormal = normal;
-    
-    positionA = new PVector(0, 0);
-    positionB = new PVector(0, 0);
-  }
-  
-  public PVector Normal()
-  {
-    float rise = positionA.y - positionB.y;
-    float run = positionA.x - positionB.x;
-    
-    if(rise * run == 0)
-      return defaultNormal;
-    
-    return new PVector(rise, -run).normalize();
-  }
-  
 }

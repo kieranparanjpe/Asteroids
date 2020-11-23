@@ -5,6 +5,9 @@ public class SpaceShip extends MonoBehaviour
   
   public float maxSpeed = 4;
   
+  private int fireRate = 500;//in ms
+  private int lastFired = 0;
+  
   private PImage image;
   
   public SpaceShip()
@@ -16,18 +19,10 @@ public class SpaceShip extends MonoBehaviour
     
     lives = 3;
     
-    colliders = new Collider[4];
-    colliders[0] = new Collider(new PVector(transform.scale.x / 2, transform.scale.y / 2), new PVector(transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(1, 0));
-    
-    colliders[1] = new Collider(new PVector(transform.scale.x / 2, transform.scale.y / 2), new PVector(-transform.scale.x / 2, transform.scale.y / 2),
-    new PVector(0, 1));
-    
-    colliders[2] = new Collider(new PVector(-transform.scale.x / 2, transform.scale.y / 2), new PVector(-transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(-1, 0));
-    
-    colliders[3] = new Collider(new PVector(transform.scale.x / 2, -transform.scale.y / 2), new PVector(-transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(0, -1));
+    colliders = new Collider[]
+    {
+      new BoxCollider(transform)
+    };
 
     
     image = loadImage("SpaceShip.png");
@@ -51,9 +46,10 @@ public class SpaceShip extends MonoBehaviour
     
 
     
-    if(q)
+    if(q && millis() - fireRate > lastFired)
     {
       behaviours.add(new Bullet(transform.position, transform.direction));
+      lastFired = millis();
     }
 
   }  //<>//
