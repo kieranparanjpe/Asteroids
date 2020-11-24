@@ -52,7 +52,7 @@ public class SpaceShip extends MonoBehaviour
       lastFired = millis();
     }
 
-  }  //<>//
+  }  //<>// //<>// //<>//
   
   public void Move()
   {    

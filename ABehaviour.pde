@@ -27,4 +27,9 @@ public class MonoBehaviour
       colliders[i].DrawColliders(transform);
     }
   }
+  
+  public void OnCollide(MonoBehaviour other)
+  {
+    transform.velocity = new PVector(0, 0);
+  }
 }

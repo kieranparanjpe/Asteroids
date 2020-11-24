@@ -4,8 +4,9 @@ public class Asteroid extends MonoBehaviour
   
   public Asteroid()
   {
-    transform.scale = new PVector(100, 100);
-    transform.velocity = new PVector(random(1), random(1));
+    transform.scale = new PVector(30, 30);
+    transform.direction = new PVector(0.1, 0).rotate(radians(random(360)));
+    transform.velocity = new PVector(0, 0);
 
     PVector random = new PVector(random(width - transform.scale.x / 2), random(height - transform.scale.y / 2));
     
@@ -44,6 +45,8 @@ public class Asteroid extends MonoBehaviour
 
 
     transform.position.add(transform.velocity);
+    
+    transform.velocity.add(transform.direction);
 
     translate(transform.position.x, transform.position.y);
     rotate(transform.direction.heading());//angle = atan(direction.y/direction.x); 
@@ -54,6 +57,19 @@ public class Asteroid extends MonoBehaviour
     //image(image, 0, 0, transform.scale.x, transform.scale.y);
     
     popMatrix();    
+  }
+  
+  @Override
+  public void OnCollide(MonoBehaviour other)
+  {
+    if(other.getClass() == SpaceShip.class)
+    {
+      behaviours.get(0) = new MonoBehaviour();
+
+      return;
+    }
+    super.OnCollide(other);
+    transform.direction.mult(-1);
   }
   
 }
