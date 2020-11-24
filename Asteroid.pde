@@ -1,6 +1,8 @@
 
 public class Asteroid extends MonoBehaviour
 {
+  public int d = 0;
+  
   
   public Asteroid()
   {
@@ -39,6 +41,7 @@ public class Asteroid extends MonoBehaviour
   @Override
   public void Update()
   {
+    d++;
     super.Update();
     pushMatrix();
     //Move();
@@ -60,15 +63,15 @@ public class Asteroid extends MonoBehaviour
   }
   
   @Override
-  public void OnCollide(MonoBehaviour other)
+  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
   {
-    if(other.getClass() == SpaceShip.class)
+    if(other.getClass() == SpaceShip.class || other.getClass() == Asteroid.class)
     {
-      behaviours.get(0) = new MonoBehaviour();
+      Destroy(this);
 
       return;
     }
-    super.OnCollide(other);
+    super.OnCollide(other, collider);
     transform.direction.mult(-1);
   }
   

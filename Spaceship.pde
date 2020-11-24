@@ -21,7 +21,7 @@ public class SpaceShip extends MonoBehaviour
     
     colliders = new Collider[]
     {
-      new BoxCollider(transform)
+      new BoxCollider(transform, false)
     };
 
     
@@ -80,6 +80,17 @@ public class SpaceShip extends MonoBehaviour
     {
       transform.velocity.setMag(maxSpeed);
     }
+  }
+  
+  @Override
+  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
+  {
+    super.OnCollide(other, collider);
+    /*troke(255);
+    //line(200, 200, 200 + collider.Normal().copy().x * 15, 200 + collider.Normal().copy().y * 15);
+    transform.velocity = new PVector(0, 0);
+    PVector c = new PVector(collider.Normal().x, collider.Normal().y);
+    transform.velocity = new PVector(Math.abs(c.x), Math.abs(c.y)).mult(-1);*/
   }
   
 }

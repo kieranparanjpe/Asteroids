@@ -9,14 +9,19 @@ public class AsteroidSpawner extends MonoBehaviour
   public void Update()
   {
     if(asteroids.size() < maxAsteroids)
-      asteroids.add((Asteroid)Instantiate(new Asteroid()));
+    {
+      Asteroid a = new Asteroid();
+      
+      asteroids.add(a);
+      Instantiate(a);
+    }
       
     for(int i = 0; i < asteroids.size(); i++)
     {
-      if(asteroids.get(i) == null)
-        println("null");
-    }
-    
-    print(asteroids.get(0).transform.position.x);
-  }
+      if(!asteroids.get(i).enabled)
+      {
+        asteroids.remove(asteroids.get(i));
+      }
+    }  
+   }
 }

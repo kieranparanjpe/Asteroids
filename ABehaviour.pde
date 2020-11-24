@@ -28,7 +28,7 @@ public class MonoBehaviour
     }
   }
   
-  public void OnCollide(MonoBehaviour other)
+  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
   {
     transform.velocity = new PVector(0, 0);
   }

@@ -13,11 +13,38 @@ public class Collider
       
       PVector tempPositionA = new PVector(transform.position.x, transform.position.y);
       PVector tempPositionB = new PVector(transform.position.x, transform.position.y);
-      edgeCollider.positionA = tempPositionA.add(edgeCollider.offsetA);
-      edgeCollider.positionB = tempPositionB.add(edgeCollider.offsetB);
+      
+      PVector tempOffsetA = new PVector(edgeCollider.offsetA.x, edgeCollider.offsetA.y);
+      PVector tempOffsetB = new PVector(edgeCollider.offsetB.x, edgeCollider.offsetB.y);
 
-      stroke(255);
+      
+      //edgeCollider.positionA = tempPositionA.add(tempOffsetA);
+      //edgeCollider.positionB = tempPositionB.add(tempOffsetB);
+      
+      edgeCollider.positionA = (tempOffsetA); 
+      edgeCollider.positionB = (tempOffsetB); 
+      
+      pushMatrix();
+      
+      translate(transform.position.x, transform.position.y);
+      
+      edgeCollider.positionA.rotate(transform.direction.heading());
+
+      edgeCollider.positionB.rotate(transform.direction.heading() /*- edgeCollider.positionB.heading()*/);
+      
+
+
+      popMatrix();
+      
+      edgeCollider.positionA.add(tempPositionA); 
+      edgeCollider.positionB.add (tempPositionB); 
+
+      stroke(255, 0, 0);
       line(edgeCollider.positionA.x, edgeCollider.positionA.y, edgeCollider.positionB.x, edgeCollider.positionB.y);
+      
+      //stroke(0, 0, 255);
+      //line(edgeCollider.positionA.x, edgeCollider.positionA.y, edgeCollider.Normal().x, edgeCollider.Normal().y);
+
     }
   }
 }
@@ -43,22 +70,19 @@ public class BoxCollider extends Collider
   }
   
   public BoxCollider(Transform transform, boolean reverseNormal)
-  {
-    if(!reverseNormal)
-      return;
-    
+  {    
     colliders = new EdgeCollider[4];
     colliders[0] = new EdgeCollider(new PVector(transform.scale.x / 2, transform.scale.y / 2), new PVector(transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(-1, 0));
+    new PVector(1, 0), reverseNormal);
     
     colliders[1] = new EdgeCollider(new PVector(transform.scale.x / 2, transform.scale.y / 2), new PVector(-transform.scale.x / 2, transform.scale.y / 2),
-    new PVector(0, -1));
+    new PVector(0, 1), reverseNormal);
     
     colliders[2] = new EdgeCollider(new PVector(-transform.scale.x / 2, transform.scale.y / 2), new PVector(-transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(1, 0));
+    new PVector(-1, 0), reverseNormal);
     
     colliders[3] = new EdgeCollider(new PVector(transform.scale.x / 2, -transform.scale.y / 2), new PVector(-transform.scale.x / 2, -transform.scale.y / 2),
-    new PVector(0, 1));
+    new PVector(0, -1), reverseNormal);
   }
   
   public EdgeCollider[] GetColliders()
@@ -76,6 +100,8 @@ public class EdgeCollider extends Collider
   
   PVector defaultNormal;
   
+  boolean reverse;
+  
   public EdgeCollider(PVector offsetA, PVector offsetB)
   {
     this.offsetA = offsetA;
@@ -83,6 +109,17 @@ public class EdgeCollider extends Collider
     
     positionA = new PVector(0, 0);
     positionB = new PVector(0, 0);
+  }
+  
+  public EdgeCollider(PVector offsetA, PVector offsetB, boolean reverse)
+  {
+    this.offsetA = offsetA;
+    this.offsetB = offsetB;
+    
+    positionA = new PVector(0, 0);
+    positionB = new PVector(0, 0);
+    
+    this.reverse = reverse;
   }
   
   public EdgeCollider(PVector offsetA, PVector offsetB, PVector normal)
@@ -96,6 +133,19 @@ public class EdgeCollider extends Collider
     positionB = new PVector(0, 0);
   }
   
+  public EdgeCollider(PVector offsetA, PVector offsetB, PVector normal, boolean reverse)
+  {
+    this.offsetA = offsetA;
+    this.offsetB = offsetB;
+    
+    defaultNormal = normal;
+    
+    positionA = new PVector(0, 0);
+    positionB = new PVector(0, 0);
+    
+    this.reverse = reverse;
+  }
+  
   @Override
   public EdgeCollider[] GetColliders()
   {
@@ -107,10 +157,17 @@ public class EdgeCollider extends Collider
     float rise = positionA.y - positionB.y;
     float run = positionA.x - positionB.x;
     
-    if(rise * run == 0)
-      return defaultNormal;
+    PVector n;
     
-    return new PVector(rise, -run).normalize();
+    if(rise * run == 0)
+      n = defaultNormal;
+    else
+      n = new PVector(rise, -run).normalize();
+      
+      if(reverse)
+        n.mult(-1);
+      
+      return n;
   }
   
 }

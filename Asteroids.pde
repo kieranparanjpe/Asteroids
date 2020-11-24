@@ -7,7 +7,7 @@ public void setup()
   
   behaviours.add(new SpaceShip());
   behaviours.add(new Walls());
-  behaviours.add(new AsteroidSpawner());
+  //behaviours.add(new AsteroidSpawner());
 
 
     
@@ -42,8 +42,8 @@ public void draw()
                 float dp = DotProduct(v.normalize(), c.EdgeColliders().get(l).Normal());
                 if(dp < 0)
                 {
-                  b.OnCollide(c);
-                  c.OnCollide(b);
+                  b.OnCollide(c, c.EdgeColliders().get(l));
+                  c.OnCollide(b, b.EdgeColliders().get(k));
                 }
               }
             }
@@ -59,4 +59,10 @@ public MonoBehaviour Instantiate(MonoBehaviour behaviour)
 {
     behaviours.add(behaviour);
     return behaviours.get(behaviours.size() - 1);
+}
+
+public void Destroy(MonoBehaviour behaviour)
+{
+  behaviours.remove(behaviour);
+  behaviour.enabled = false;
 }
