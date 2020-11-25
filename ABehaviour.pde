@@ -29,7 +29,17 @@ public class MonoBehaviour
   }
   
   public void OnCollide(MonoBehaviour other, EdgeCollider collider)
-  {
+  {    
+
+  }
+  
+    public void OnPhysicsCollide(EdgeCollider collider)
+  {    
     transform.velocity = new PVector(0, 0);
+    
+    double dot = PVector.dot(transform.direction.copy().normalize(), collider.Normal());
+    
+    if(dot < -0.98)
+      transform.angularVelocity = new PVector(0, 0);
   }
 }

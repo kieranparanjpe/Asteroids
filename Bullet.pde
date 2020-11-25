@@ -10,6 +10,11 @@ public class Bullet extends MonoBehaviour
     this.velocity = new PVector(velocity.x, velocity.y);
     
     this.velocity.setMag(5);
+    
+    colliders = new Collider[]
+    {
+      new BoxCollider(transform, false)
+    };
   }
   
   @Override
@@ -19,5 +24,16 @@ public class Bullet extends MonoBehaviour
     
     fill(200);
     rect(position.x, position.y, 10, 10);
+  }
+  
+  @Override
+  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
+  {    
+    if(other.getClass() == SpaceShip.class || other.getClass() == Bullet.class)
+    {
+      return;
+    }
+    println("Destroy");
+    //Destroy(this);
   }
 }

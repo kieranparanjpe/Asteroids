@@ -3,7 +3,7 @@ public ArrayList<MonoBehaviour> behaviours = new ArrayList<MonoBehaviour>();;
 
 public void setup()
 {
-  size(800, 800);
+  size(1280, 720);
   
   behaviours.add(new SpaceShip());
   behaviours.add(new Walls());
@@ -23,11 +23,19 @@ public void draw()
   {
     MonoBehaviour b = behaviours.get(i);
     
+    if(b.getClass() == Bullet.class)
+    {
+        println("sfs");
+    }
+    
     if(b.enabled)
     {
+      
+      PVector v = new PVector(b.transform.velocity.x, b.transform.velocity.y);
       for(int j = 0; j < behaviours.size(); j++)
       {
-        MonoBehaviour c = behaviours.get(j);
+        MonoBehaviour c = behaviours.get(j);              
+
         
         if(b != c)
         {
@@ -35,13 +43,14 @@ public void draw()
           {
             for(int l = 0; l < c.EdgeColliders().size(); l++) 
             {
-              PVector v = new PVector(b.transform.velocity.x, b.transform.velocity.y);
                
               if(LinesIntersect(b.EdgeColliders().get(k).positionA, b.EdgeColliders().get(k).positionB, c.EdgeColliders().get(l).positionA, c.EdgeColliders().get(l).positionB))
               {
-                float dp = DotProduct(v.normalize(), c.EdgeColliders().get(l).Normal());
-                if(dp < 0)
+                float dp = PVector.dot(v.normalize(), c.EdgeColliders().get(l).Normal());
+                //println(c.EdgeColliders().get(l).Normal());
+                if(dp <= 0)
                 {
+                  b.OnPhysicsCollide(c.EdgeColliders().get(l));
                   b.OnCollide(c, c.EdgeColliders().get(l));
                   c.OnCollide(b, b.EdgeColliders().get(k));
                 }

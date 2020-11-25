@@ -4,6 +4,8 @@ public class Transform
   public PVector direction;
   public PVector scale;
   public PVector velocity;
+  public PVector angularVelocity;
+
   
   public Transform()
   {
@@ -11,5 +13,7 @@ public class Transform
     direction = new PVector(0, 0);
     scale = new PVector(0, 0);
     velocity = new PVector(0, 0);
+    angularVelocity = new PVector(0.1, 0);
+
   }
 }

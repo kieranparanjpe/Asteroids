@@ -21,8 +21,8 @@ public class Collider
       //edgeCollider.positionA = tempPositionA.add(tempOffsetA);
       //edgeCollider.positionB = tempPositionB.add(tempOffsetB);
       
-      edgeCollider.positionA = (tempOffsetA); 
-      edgeCollider.positionB = (tempOffsetB); 
+      edgeCollider.positionA = (tempOffsetA.add(transform.velocity)); 
+      edgeCollider.positionB = (tempOffsetB.add(transform.velocity)); 
       
       pushMatrix();
       
@@ -160,7 +160,7 @@ public class EdgeCollider extends Collider
     PVector n;
     
     if(rise * run == 0)
-      n = defaultNormal;
+      n = defaultNormal.copy();
     else
       n = new PVector(rise, -run).normalize();
       

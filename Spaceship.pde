@@ -3,7 +3,7 @@ public class SpaceShip extends MonoBehaviour
 {
   public int lives;
   
-  public float maxSpeed = 4;
+  public float maxSpeed = 8;
   
   private int fireRate = 500;//in ms
   private int lastFired = 0;
@@ -48,7 +48,7 @@ public class SpaceShip extends MonoBehaviour
     
     if(q && millis() - fireRate > lastFired)
     {
-      behaviours.add(new Bullet(transform.position, transform.direction));
+      Instantiate(new Bullet(transform.position, transform.direction));
       lastFired = millis();
     }
 
@@ -57,14 +57,22 @@ public class SpaceShip extends MonoBehaviour
   public void Move()
   {    
     transform.position.add(transform.velocity);
+   // transform.direction = (transform.angularVelocity.copy());
+    transform.direction.rotate(transform.angularVelocity.heading());
+  //  println(transform.angularVelocity);
     
     if(a)
     {
-      transform.direction.rotate(-radians(5));
+      transform.angularVelocity = PVector.fromAngle(-radians(5));
     }
     if(d)
     {
-      transform.direction.rotate(radians(5));
+      transform.angularVelocity = PVector.fromAngle(radians(5));
+    }
+    
+    if(!a && !d)
+    {
+      transform.angularVelocity = PVector.fromAngle(radians(0));
     }
     
     if(w && transform.velocity.mag() <= maxSpeed)
@@ -76,21 +84,11 @@ public class SpaceShip extends MonoBehaviour
       transform.velocity.sub(transform.direction);
     }
     
+    
     if(transform.velocity.mag() > maxSpeed)
     {
       transform.velocity.setMag(maxSpeed);
     }
-  }
-  
-  @Override
-  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
-  {
-    super.OnCollide(other, collider);
-    /*troke(255);
-    //line(200, 200, 200 + collider.Normal().copy().x * 15, 200 + collider.Normal().copy().y * 15);
-    transform.velocity = new PVector(0, 0);
-    PVector c = new PVector(collider.Normal().x, collider.Normal().y);
-    transform.velocity = new PVector(Math.abs(c.x), Math.abs(c.y)).mult(-1);*/
   }
   
 }
