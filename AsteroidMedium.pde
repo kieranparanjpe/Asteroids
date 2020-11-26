@@ -2,6 +2,8 @@ public class AsteroidMedium extends Asteroid
 {
   public AsteroidMedium(PVector position)
   {
+        super.init();
+
     transform.direction = new PVector(1, 0).rotate(radians(random(360)));
     transform.velocity = new PVector(0, 0);
     
@@ -24,7 +26,8 @@ public class AsteroidMedium extends Asteroid
     {      
       Instantiate(new AsteroidSmall(transform.position.copy().add(transform.scale.copy().div(2))));
       Instantiate(new AsteroidSmall(transform.position.copy().sub(transform.scale.copy().div(2))));
-      Destroy(this);
+      super.Die();
+
     }
   }
 }

@@ -12,6 +12,11 @@ public void Game()
 {
   background(0);
   
+  if(ast <= 0)
+  {
+    state = States.WIN;
+  }
+  
   for(int i = 0; i < behaviours.size(); i++)
   {
     MonoBehaviour b = behaviours.get(i);
@@ -67,5 +72,15 @@ public void GameOver()
   for(int i = 0; i < over.size(); i++)
   {
     over.get(i).Update();
+  }
+}
+
+public void Win()
+{
+      background(0);
+
+  for(int i = 0; i < win.size(); i++)
+  {
+    win.get(i).Update();
   }
 }

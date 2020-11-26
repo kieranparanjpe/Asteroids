@@ -20,6 +20,8 @@ public class MonoBehaviour
     
     return temp;
   }
+  
+  public boolean player(){return false;}
  
   public void Update()
   {

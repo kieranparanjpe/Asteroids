@@ -8,6 +8,9 @@ public class SpaceShip extends MonoBehaviour
   private int fireRate = 100;//in ms
   private int lastFired = 0;
   
+    private int teleRate = 1000;//in ms
+  private int lastTele = 0;
+  
   private PImage image;
   
   public SpaceShip()
@@ -51,8 +54,15 @@ public class SpaceShip extends MonoBehaviour
     
     if(q && millis() - fireRate > lastFired)
     {
-      Instantiate(new Bullet(transform.position, transform.direction));
+      Instantiate(new Bullet(transform.position, transform.direction, true));
       lastFired = millis();
+    }
+    
+    if(e && millis() - teleRate > lastTele)
+    {
+            lastTele = millis();
+
+      Teleport();      
     }
     
     if(lives <= 0)
@@ -89,7 +99,7 @@ public class SpaceShip extends MonoBehaviour
       
       for(int i = 0; i < 5; i++)
       {
-        Instantiate(new Fire(transform.position, transform.direction.copy().rotate(radians(random(-30, 30)))));
+        Instantiate(new Fire(transform.position, transform.direction.copy().rotate(radians(random(-30, 30))), color(255, 100, 0)));
 
       }
      
@@ -106,10 +116,55 @@ public class SpaceShip extends MonoBehaviour
     }
   }
   
+  public void Teleport()
+  {
+    boolean yes = false;
+    
+    Transform t = new Transform();
+    
+    t.scale = transform.scale;
+    t.direction = transform.direction;
+    
+   t.position = new PVector(random(transform.scale.x, width - transform.scale.x), random(transform.scale.y, height - transform.scale.y)); 
+   
+   EdgeCollider[] e = new BoxCollider(t).GetColliders();
+   
+   while(!yes)
+   {
+     for(int i = 0; i < behaviours.size(); i++)
+     {
+        MonoBehaviour c = behaviours.get(i);    
+        
+        boolean bC = false;
+        boolean cC;
+        
+        if(c.init)
+        {
+          for(int k = 0; k < e.length; k++) 
+          {
+            for(int l = 0; l < c.EdgeColliders().size(); l++) 
+            {
+              if(LinesIntersect(e[k].positionA, e[k].positionB, c.EdgeColliders().get(l).positionA, c.EdgeColliders().get(l).positionB))
+              {
+                yes = true;
+                  
+                }
+              }
+            }
+          }
+        }
+      }
+         transform.position = new PVector(t.position.x, t.position.y);
+
+   }
+   
+  
+  
   @Override
   public void OnCollide(MonoBehaviour other, EdgeCollider collider)
   {
-    if(other.getClass() == AsteroidLarge.class || other.getClass() == AsteroidMedium.class || other.getClass() == AsteroidSmall.class)
+    if(other.getClass() == AsteroidLarge.class || other.getClass() == AsteroidMedium.class || other.getClass() == AsteroidSmall.class || 
+    (other.getClass() == Bullet.class && other.player() == false))
       lives--;
   }
 }

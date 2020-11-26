@@ -21,7 +21,18 @@ public abstract class Asteroid extends MonoBehaviour
     stroke(0);
     rect(0, 0,  transform.scale.x, transform.scale.y);
     
-    popMatrix();    
+    popMatrix(); 
+    
+    if(transform.position.x > width + 120 || transform.position.y > height + 120 || transform.position.x <  -120 || transform.position.y < - 120)
+    {
+      ast--;
+      Destroy(this);      
+    }
+  }
+  
+  public void init()
+  {
+   ast++; 
   }
   
   @Override
@@ -33,4 +44,16 @@ public abstract class Asteroid extends MonoBehaviour
     transform.position.add(n.setMag(2));
     transform.direction.rotate(radians(random(150, 210)));
   }  
+  
+  public void Die()
+  {
+    ast--;
+    
+   for(int i = 0; i < 15; i++)
+   {
+     Instantiate(new Fire(transform.position, transform.direction.copy().rotate(radians(random(0, 360))),  color(100)));
+   }
+    
+    Destroy(this);
+  }
 }

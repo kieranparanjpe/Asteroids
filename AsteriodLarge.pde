@@ -3,6 +3,8 @@ public class AsteroidLarge extends Asteroid
 {
   public AsteroidLarge()
   {
+    super.init();
+    
     transform.scale = new PVector(100, 100);
     transform.direction = new PVector(1, 0).rotate(radians(random(360)));
     transform.velocity = new PVector(0, 0);
@@ -28,7 +30,7 @@ public class AsteroidLarge extends Asteroid
     {      
       Instantiate(new AsteroidMedium(transform.position.copy().add(transform.scale.copy().div(2))));
       Instantiate(new AsteroidMedium(transform.position.copy().sub(transform.scale.copy().div(2))));
-      Destroy(this);
+      super.Die();
     }
   }
 }

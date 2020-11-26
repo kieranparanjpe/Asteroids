@@ -3,7 +3,13 @@ public class AsteroidSpawner extends MonoBehaviour
 {
   public ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
   
-  public int maxAsteroids = 5;
+  public int maxAsteroids = 3;
+  
+  public UFO ufo;
+  
+  private int ufoSpawned;
+  private PVector randUFO = new PVector(5000, 6000);
+  private int nextUFO = 0;
   
   public AsteroidSpawner()
   {
@@ -14,6 +20,9 @@ public class AsteroidSpawner extends MonoBehaviour
       asteroids.add(a);
       Instantiate(a);
     }
+
+
+    nextUFO = (int)0;
   }
   
   @Override
@@ -26,5 +35,18 @@ public class AsteroidSpawner extends MonoBehaviour
         asteroids.remove(asteroids.get(i));
       }
     }  
+    
+    if(millis() > ufoSpawned + nextUFO)
+    {
+      CreateUFO();
+    }
+   }
+   
+   public void CreateUFO()
+   {
+     ufoSpawned = millis();
+     nextUFO = (int)random(randUFO.x, randUFO.y);
+     ufo = new UFO();
+     Instantiate(ufo);
    }
 }

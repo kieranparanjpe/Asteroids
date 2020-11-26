@@ -65,7 +65,7 @@ public class Button extends MonoBehaviour
     
     if(PointInRect(new PVector(mouseX, mouseY), position, scale))
     {
-      if(state == States.GAMEOVER)
+      if(state == States.GAMEOVER || state == States.WIN)
       {
         menu.clear();
         behaviours.clear();

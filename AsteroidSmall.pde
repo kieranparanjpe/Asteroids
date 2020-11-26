@@ -2,6 +2,9 @@ public class AsteroidSmall extends Asteroid
 {
   public AsteroidSmall(PVector position)
   {
+        super.init();
+
+    
     transform.direction = new PVector(1, 0).rotate(radians(random(360)));
     transform.velocity = new PVector(0, 0);
     
@@ -22,7 +25,7 @@ public class AsteroidSmall extends Asteroid
   {
     if(other.getClass() == SpaceShip.class || other.getClass() == Bullet.class)
     {      
-      Destroy(this);
+      super.Die();
     }
   }
 }

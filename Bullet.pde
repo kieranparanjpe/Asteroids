@@ -1,7 +1,9 @@
 
 public class Bullet extends MonoBehaviour
 {
-  public Bullet(PVector position, PVector velocity)
+  public boolean isPlayer;
+  
+  public Bullet(PVector position, PVector velocity, boolean isPlayer)
   {
     transform.position = new PVector(position.x, position.y);
     transform.velocity = new PVector(velocity.x, velocity.y);
@@ -16,6 +18,14 @@ public class Bullet extends MonoBehaviour
     
     for(EdgeCollider a : colliders[0].GetColliders())
       a .trigger = true;
+      
+      this.isPlayer = isPlayer;
+  }
+  
+  @Override
+  public boolean player()
+  {
+   return isPlayer; 
   }
   
   @Override
@@ -39,7 +49,7 @@ public class Bullet extends MonoBehaviour
   @Override
   public void OnCollide(MonoBehaviour other, EdgeCollider collider)
   {       
-    if(other.getClass() == SpaceShip.class || other.getClass() == Bullet.class)
+    if((other.getClass() == SpaceShip.class && isPlayer) || (other.getClass() == UFO.class && !isPlayer) || other.getClass() == Bullet.class)
     {
       return;
     }

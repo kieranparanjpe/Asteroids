@@ -5,7 +5,9 @@ public class Fire extends MonoBehaviour
   private int spawned;
   private int lifeSpan;
   
-  public Fire(PVector position, PVector direction)
+  private color colour;
+  
+  public Fire(PVector position, PVector direction, color c)
   {
     transform.direction = direction.copy().rotate(radians(180));
     transform.position = position.copy().add(transform.direction.copy().setMag(30));
@@ -14,6 +16,8 @@ public class Fire extends MonoBehaviour
     spawned = millis();
     
     lifeSpan = (int)random(200, 400);
+    
+    colour = c;
   }
   
   @Override
@@ -30,7 +34,7 @@ public class Fire extends MonoBehaviour
     translate(transform.position.x, transform.position.y);
     rotate(transform.direction.heading());
     
-    fill(255, 100, 0);
+    fill(colour);
     noStroke();
     circle(0, 0, 5);
     
