@@ -1,11 +1,11 @@
 
 public class SpaceShip extends MonoBehaviour
 {
-  public int lives;
+  public int lives = 15;
   
-  public float maxSpeed = 8;
+  public float maxSpeed = 4;
   
-  private int fireRate = 500;//in ms
+  private int fireRate = 100;//in ms
   private int lastFired = 0;
   
   private PImage image;
@@ -17,7 +17,6 @@ public class SpaceShip extends MonoBehaviour
     transform.scale = new PVector(70, 70);
     transform.velocity = new PVector(0, 0);
     
-    lives = 3;
     
     colliders = new Collider[]
     {
@@ -32,6 +31,10 @@ public class SpaceShip extends MonoBehaviour
   public void Update()
   {    
     super.Update();
+    
+    textSize(20);
+    fill(255);
+    text("Lives " + lives, 50, 50);
 
     pushMatrix();
     Move();
@@ -50,6 +53,11 @@ public class SpaceShip extends MonoBehaviour
     {
       Instantiate(new Bullet(transform.position, transform.direction));
       lastFired = millis();
+    }
+    
+    if(lives <= 0)
+    {
+       state = States.GAMEOVER; 
     }
 
   }  //<>// //<>// //<>//
@@ -78,6 +86,13 @@ public class SpaceShip extends MonoBehaviour
     if(w && transform.velocity.mag() <= maxSpeed)
     {
       transform.velocity.add(transform.direction);
+      
+      for(int i = 0; i < 5; i++)
+      {
+        Instantiate(new Fire(transform.position, transform.direction.copy().rotate(radians(random(-30, 30)))));
+
+      }
+     
     }
     if(s && transform.velocity.mag() <= maxSpeed)
     {
@@ -91,4 +106,10 @@ public class SpaceShip extends MonoBehaviour
     }
   }
   
+  @Override
+  public void OnCollide(MonoBehaviour other, EdgeCollider collider)
+  {
+    if(other.getClass() == AsteroidLarge.class || other.getClass() == AsteroidMedium.class || other.getClass() == AsteroidSmall.class)
+      lives--;
+  }
 }

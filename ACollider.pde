@@ -1,5 +1,7 @@
 public class Collider
 {
+  public boolean trigger;
+  
   public EdgeCollider[] GetColliders()
   {
     return new EdgeCollider[0]; 
@@ -40,7 +42,7 @@ public class Collider
       edgeCollider.positionB.add (tempPositionB); 
 
       stroke(255, 0, 0);
-      line(edgeCollider.positionA.x, edgeCollider.positionA.y, edgeCollider.positionB.x, edgeCollider.positionB.y);
+      //line(edgeCollider.positionA.x, edgeCollider.positionA.y, edgeCollider.positionB.x, edgeCollider.positionB.y);
       
       //stroke(0, 0, 255);
       //line(edgeCollider.positionA.x, edgeCollider.positionA.y, edgeCollider.Normal().x, edgeCollider.Normal().y);

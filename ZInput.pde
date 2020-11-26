@@ -1,4 +1,4 @@
-public boolean w, a, s, d, q;
+public boolean w, a, s, d, q, click;
 
 void keyPressed()
 {
@@ -18,7 +18,7 @@ void keyPressed()
   {
     a = true;
   }
-  else if(key == 'Q' || key == 'q')
+  else if(key == ' ')
   {
     q = true;
   }
@@ -42,8 +42,59 @@ void keyReleased()
   {
     a = false;
   }
-  else if(key == 'Q' || key == 'q')
+  else if(key == ' ')
   {
     q = false;
   }
+}
+
+void mousePressed()
+{
+  if(state == States.MENU)
+  {
+    for(int i = 0; i < menu.size(); i++)
+    {
+      menu.get(i).OnClick();
+    }
+  }
+  if(state == States.GAME)
+  {
+    for(int i = 0; i < behaviours.size(); i++)
+    {
+      behaviours.get(i).OnClick();
+    }
+  }
+  if(state == States.GAMEOVER)
+  {
+    for(int i = 0; i < over.size(); i++)
+    {
+      over.get(i).OnClick();
+    }
+  }
+}
+
+void mouseReleased()
+{
+  if(state == States.MENU)
+  {
+    for(int i = 0; i < menu.size(); i++)
+    {
+      menu.get(i).OnRelease();
+    }
+  }
+  if(state == States.GAME)
+  {
+    for(int i = 0; i < behaviours.size(); i++)
+    {
+      behaviours.get(i).OnRelease();
+    }
+  }
+  if(state == States.GAMEOVER)
+  {
+    for(int i = 0; i < over.size(); i++)
+    {
+      over.get(i).OnRelease();
+    }
+  }
+ 
 }

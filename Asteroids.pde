@@ -1,77 +1,64 @@
 
-public ArrayList<MonoBehaviour> behaviours = new ArrayList<MonoBehaviour>();;
+public ArrayList<MonoBehaviour> behaviours = new ArrayList<MonoBehaviour>();
+
+public ArrayList<MonoBehaviour> menu = new ArrayList<MonoBehaviour>();
+public ArrayList<MonoBehaviour> over = new ArrayList<MonoBehaviour>();
+
+
+public States state;
 
 public void setup()
 {
   size(1280, 720);
+  Init();
+}
+
+public void Init()
+{
+
   
   behaviours.add(new SpaceShip());
   behaviours.add(new Walls());
-  //behaviours.add(new AsteroidSpawner());
+  behaviours.add(new AsteroidSpawner());
+  
+  menu.add(new Button(new PVector(width / 2, height / 2), new PVector(300, 200), 200, 100, "Play", States.GAME));
 
+  over.add(new Button(new PVector(width / 2, height / 2), new PVector(300, 200), 200, 100, "GAME OVER", States.MENU));
+  
+  state = States.MENU;
 
     
   rectMode(CENTER);
   imageMode(CENTER);
+  textAlign(CENTER);
 }
 
 public void draw()
 {
-  background(0);
-  
-  for(int i = 0; i < behaviours.size(); i++)
-  {
-    MonoBehaviour b = behaviours.get(i);
-    
-    if(b.getClass() == Bullet.class)
-    {
-        println("sfs");
-    }
-    
-    if(b.enabled)
-    {
-      
-      PVector v = new PVector(b.transform.velocity.x, b.transform.velocity.y);
-      for(int j = 0; j < behaviours.size(); j++)
-      {
-        MonoBehaviour c = behaviours.get(j);              
 
-        
-        if(b != c)
-        {
-          for(int k = 0; k < b.EdgeColliders().size(); k++) 
-          {
-            for(int l = 0; l < c.EdgeColliders().size(); l++) 
-            {
-               
-              if(LinesIntersect(b.EdgeColliders().get(k).positionA, b.EdgeColliders().get(k).positionB, c.EdgeColliders().get(l).positionA, c.EdgeColliders().get(l).positionB))
-              {
-                float dp = PVector.dot(v.normalize(), c.EdgeColliders().get(l).Normal());
-                //println(c.EdgeColliders().get(l).Normal());
-                if(dp <= 0)
-                {
-                  b.OnPhysicsCollide(c.EdgeColliders().get(l));
-                  b.OnCollide(c, c.EdgeColliders().get(l));
-                  c.OnCollide(b, b.EdgeColliders().get(k));
-                }
-              }
-            }
-          }
-        }
-      }
-      b.Update();
-    }
-  } 
+    if(state == States.MENU)
+      Menu();
+    if(state == States.GAME)
+      Game();
+    if(state == States.GAMEOVER)
+      GameOver();
+
 }
 
-public MonoBehaviour Instantiate(MonoBehaviour behaviour)
+public void Instantiate(MonoBehaviour behaviour)
 {
     behaviours.add(behaviour);
-    return behaviours.get(behaviours.size() - 1);
 }
 
 public void Destroy(MonoBehaviour behaviour)
 {
   behaviours.remove(behaviour);
   behaviour.enabled = false;
+}
+
+public enum States
+{
+   MENU,
+   GAME,
+   GAMEOVER
 }

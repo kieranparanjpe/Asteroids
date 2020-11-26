@@ -1,39 +1,55 @@
 
 public class Bullet extends MonoBehaviour
 {
-  PVector position;
-  PVector velocity;
-  
   public Bullet(PVector position, PVector velocity)
   {
-    this.position = new PVector(position.x, position.y);
-    this.velocity = new PVector(velocity.x, velocity.y);
+    transform.position = new PVector(position.x, position.y);
+    transform.velocity = new PVector(velocity.x, velocity.y);
+    transform.scale = new PVector(10, 10);
     
-    this.velocity.setMag(5);
+    transform.velocity.setMag(14);
     
     colliders = new Collider[]
     {
-      new BoxCollider(transform, false)
+      new BoxCollider(transform)
     };
+    
+    for(EdgeCollider a : colliders[0].GetColliders())
+      a .trigger = true;
   }
   
   @Override
   public void Update()
   {
-    position.add(this.velocity);
+    super.Update();
+    
+    transform.position.add(transform.velocity);
     
     fill(200);
-    rect(position.x, position.y, 10, 10);
+    //pushMatrix();
+    
+    //translate(transform.position.x, transform.position.y);
+    
+    stroke(0, 255, 0);
+    rect(transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
+    
+    //popMatrix();
   }
   
   @Override
   public void OnCollide(MonoBehaviour other, EdgeCollider collider)
-  {    
+  {       
     if(other.getClass() == SpaceShip.class || other.getClass() == Bullet.class)
     {
       return;
     }
-    println("Destroy");
-    //Destroy(this);
+   // println(other.getClass());
+    Destroy(this);
+  }
+  
+  @Override
+  public void OnPhysicsCollide(EdgeCollider collider)
+  {       
+    
   }
 }

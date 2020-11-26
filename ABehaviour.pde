@@ -1,6 +1,7 @@
 public class MonoBehaviour
 {
   public boolean enabled = true;
+  public boolean init = false;
   
   public Transform transform = new Transform();
   
@@ -26,6 +27,18 @@ public class MonoBehaviour
     {
       colliders[i].DrawColliders(transform);
     }
+    
+    init = true;
+  }
+  
+  public void OnClick()
+  {
+    
+  }
+  
+  public void OnRelease()
+  {
+    
   }
   
   public void OnCollide(MonoBehaviour other, EdgeCollider collider)

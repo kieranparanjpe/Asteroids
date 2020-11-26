@@ -5,17 +5,20 @@ public class AsteroidSpawner extends MonoBehaviour
   
   public int maxAsteroids = 5;
   
-  @Override
-  public void Update()
+  public AsteroidSpawner()
   {
-    if(asteroids.size() < maxAsteroids)
+    while(asteroids.size() < maxAsteroids)
     {
-      Asteroid a = new Asteroid();
+      Asteroid a = new AsteroidLarge();
       
       asteroids.add(a);
       Instantiate(a);
     }
-      
+  }
+  
+  @Override
+  public void Update()
+  { 
     for(int i = 0; i < asteroids.size(); i++)
     {
       if(!asteroids.get(i).enabled)

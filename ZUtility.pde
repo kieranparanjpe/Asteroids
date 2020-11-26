@@ -60,3 +60,10 @@ public float DotProduct(PVector a, PVector b)
 {
   return (a.x * b.x) + (a.y * b.y);
 }
+
+public boolean PointInRect(PVector point, PVector rectPosition, PVector rectScale)
+{
+  return((point.x < rectPosition.x + rectScale.x / 2) && (point.x > rectPosition.x - rectScale.x / 2) && 
+  (point.y < rectPosition.y + rectScale.y / 2) && (point.y > rectPosition.y - rectScale.y / 2));
+ 
+}
