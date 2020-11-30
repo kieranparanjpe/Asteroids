@@ -5,6 +5,7 @@ public class Fire extends MonoBehaviour
   private int spawned;
   private int lifeSpan;
   
+  int alpha = 255;
   private color colour;
   
   public Fire(PVector position, PVector direction, color c)
@@ -33,7 +34,9 @@ public class Fire extends MonoBehaviour
     
     translate(transform.position.x, transform.position.y);
     rotate(transform.direction.heading());
-    
+    alpha -= lifeSpan / frameRate;
+    colour = color(red(colour), green(colour), blue(colour), alpha);
+        
     fill(colour);
     noStroke();
     circle(0, 0, 5);

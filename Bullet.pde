@@ -8,7 +8,7 @@ public class Bullet extends MonoBehaviour
     transform.position = new PVector(position.x, position.y);
     transform.velocity = new PVector(velocity.x, velocity.y);
     transform.scale = new PVector(10, 10);
-    
+
     transform.velocity.setMag(14);
     
     colliders = new Collider[]
@@ -35,14 +35,14 @@ public class Bullet extends MonoBehaviour
     
     transform.position.add(transform.velocity);
     
-    fill(200);
+    fill(0);
     //pushMatrix();
     
     //translate(transform.position.x, transform.position.y);
     
-    stroke(0, 255, 0);
-    rect(transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
-    
+    noStroke();
+    //rect(transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
+    ellipse(transform.position.x, transform.position.y, (transform.scale.x), (transform.scale.y));
     //popMatrix();
   }
   

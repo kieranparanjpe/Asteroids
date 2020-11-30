@@ -54,8 +54,8 @@ public class UFO extends MonoBehaviour
     transform.velocity = transform.direction.copy().setMag(5);
     
     fill(255, 0, 0);
-    rect(transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
-    
+        image(ufo, transform.position.x, transform.position.y, transform.scale.x, transform.scale.y);
+
     if(millis() > spawned + shoot)
     {
       //PVector b = PVector.fromAngle(transform.direction.heading() + PVector.angleBetween(transform.position, behaviours.get(0).transform.position));

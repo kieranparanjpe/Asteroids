@@ -1,15 +1,18 @@
 
 public class SpaceShip extends MonoBehaviour
 {
-  public int lives = 15;
+  public int lives = 3;
   
   public float maxSpeed = 4;
   
-  private int fireRate = 100;//in ms
+  private int fireRate = 150;//in ms
   private int lastFired = 0;
   
-    private int teleRate = 1000;//in ms
+  private int teleRate = 50;//in ms
   private int lastTele = 0;
+  
+  private int invinceLength = 1000;//in ms
+  private int lastInvince = 0;
   
   private PImage image;
   
@@ -35,7 +38,7 @@ public class SpaceShip extends MonoBehaviour
   {    
     super.Update();
     
-    textSize(20);
+    textSize(15);
     fill(255);
     text("Lives " + lives, 50, 50);
 
@@ -62,7 +65,15 @@ public class SpaceShip extends MonoBehaviour
     {
             lastTele = millis();
 
-      Teleport();      
+      //Teleport();      
+    }
+    if(millis() - invinceLength < lastInvince)
+    {
+      bg = color(255, 0, 0);
+    }
+    else
+    {
+     bg = 0; 
     }
     
     if(lives <= 0)
@@ -122,22 +133,20 @@ public class SpaceShip extends MonoBehaviour
     
     Transform t = new Transform();
     
-    t.scale = transform.scale;
+    t.scale = transform.scale.copy().mult(2);
     t.direction = transform.direction;
     
-   t.position = new PVector(random(transform.scale.x, width - transform.scale.x), random(transform.scale.y, height - transform.scale.y)); 
    
-   EdgeCollider[] e = new BoxCollider(t).GetColliders();
+   BoxCollider b = new BoxCollider(t);
    
    while(!yes)
-   {
+   {   
+     t.position = new PVector(random(transform.scale.x, width - transform.scale.x), random(transform.scale.y, height - transform.scale.y)); 
+     b.DrawColliders(t);
+    EdgeCollider[] e = b.GetColliders();
      for(int i = 0; i < behaviours.size(); i++)
      {
         MonoBehaviour c = behaviours.get(i);    
-        
-        boolean bC = false;
-        boolean cC;
-        
         if(c.init)
         {
           for(int k = 0; k < e.length; k++) 
@@ -146,16 +155,23 @@ public class SpaceShip extends MonoBehaviour
             {
               if(LinesIntersect(e[k].positionA, e[k].positionB, c.EdgeColliders().get(l).positionA, c.EdgeColliders().get(l).positionB))
               {
-                yes = true;
-                  
-                }
+                yes = false;     
+              //  print(true);
+               // stroke(0, 255, 0);
+               // line(e[k].positionA.x, e[k].positionA.y, e[k].positionB.x, e[k].positionB.y);
+              //  circle(e[k].positionA.x, e[k].positionA.y, 100);
+              }
+              else
+              {
+               yes = true; 
               }
             }
           }
         }
       }
-         transform.position = new PVector(t.position.x, t.position.y);
-
+    }
+      //rect(t.position.x, t.position.y, t.scale.x, t.scale.y);
+    transform.position = new PVector(t.position.x, t.position.y);
    }
    
   
@@ -165,6 +181,13 @@ public class SpaceShip extends MonoBehaviour
   {
     if(other.getClass() == AsteroidLarge.class || other.getClass() == AsteroidMedium.class || other.getClass() == AsteroidSmall.class || 
     (other.getClass() == Bullet.class && other.player() == false))
-      lives--;
+    {
+      if(millis() - invinceLength > lastInvince)
+      {
+        lives--;
+        lastInvince = millis();
+      }
+
+    }
   }
 }

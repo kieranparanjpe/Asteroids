@@ -1,4 +1,4 @@
-public boolean w, a, s, d, q, click, e;
+public boolean w, a, s, d, q, click, e, p;
 
 void keyPressed()
 {
@@ -25,6 +25,10 @@ void keyPressed()
   else if(key == 'E' || key == 'e')
   {
     e = true;
+  }
+  else if(key == 'P' || key == 'p')
+  {
+    p = true;
   }
 }
 
@@ -54,6 +58,10 @@ void keyReleased()
   {
     e = false;
   }
+  else if(key == 'P' || key == 'p')
+  {
+    p = false;
+  }
 }
 
 void mousePressed()
@@ -80,11 +88,19 @@ void mousePressed()
     }
   }
   
-    if(state == States.WIN)
+  if(state == States.WIN)
   {
     for(int i = 0; i < win.size(); i++)
     {
       win.get(i).OnClick();
+    }
+  }
+  
+  if(state == States.PAUSE)
+  {
+    for(int i = 0; i < pause.size(); i++)
+    {
+      pause.get(i).OnClick();
     }
   }
 }
@@ -118,6 +134,14 @@ void mouseReleased()
     for(int i = 0; i < win.size(); i++)
     {
       win.get(i).OnRelease();
+    }
+  }
+  
+  if(state == States.PAUSE)
+  {
+    for(int i = 0; i < pause.size(); i++)
+    {
+      pause.get(i).OnRelease();
     }
   }
  

@@ -33,19 +33,19 @@ public class Button extends MonoBehaviour
     
     if(PointInRect(new PVector(mouseX, mouseY), position, scale))
     {
-      stroke(0, 0, 255);
+      stroke(0);
       strokeWeight(5);
     }
     else
     {
-      stroke(0);
+      noStroke();
       strokeWeight(0);
     }
     
     fill(colour);
     rect(position.x, position.y, scale.x, scale.y);
     fill(0);
-    textSize(50);
+    textSize(30);
     text(text, position.x, position.y);
   }
 

@@ -1,6 +1,14 @@
 public void Menu()
 {
-    background(0);
+  background(0);
+  image(backg, width / 2, height / 2);
+  textSize(30);
+  fill(255);
+  text("Just Some game...", width / 2, 200);
+    textSize(15);
+
+    text("press 'e' (or 'E') to win", width / 2, 250);
+    text("Made by: Kieran Paranjpe", width / 2, 700);
 
   for(int i = 0; i < menu.size(); i++)
   {
@@ -10,7 +18,16 @@ public void Menu()
 
 public void Game()
 {
-  background(0);
+  background(bg);
+  image(backg, width / 2, height / 2);
+  if(p)
+    state = States.PAUSE;
+    
+  if(e)
+  {
+    link("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    e = false;
+  }
   
   if(ast <= 0)
   {
@@ -67,8 +84,11 @@ public void Game()
 }
 public void GameOver()
 {
-    background(0);
-
+  background(0);
+  image(backg, width / 2, height / 2);
+  textSize(30);
+  fill(255);
+  text("Ur Bad :(", width / 2, 200);
   for(int i = 0; i < over.size(); i++)
   {
     over.get(i).Update();
@@ -78,9 +98,30 @@ public void GameOver()
 public void Win()
 {
       background(0);
+  image(backg, width / 2, height / 2);
+
+  textSize(30);
+  fill(255);
+
+  text("You Won!", width / 2, 200);
 
   for(int i = 0; i < win.size(); i++)
   {
     win.get(i).Update();
+  }
+}
+
+public void Pause()
+{
+  background(0);
+    image(backg, width / 2, height / 2);
+
+  textSize(30);
+  fill(255);
+  text("Paused", width / 2, 200);
+
+  for(int i = 0; i < pause.size(); i++)
+  {
+    pause.get(i).Update();
   }
 }

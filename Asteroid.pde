@@ -19,7 +19,8 @@ public abstract class Asteroid extends MonoBehaviour
     
     fill(100);
     stroke(0);
-    rect(0, 0,  transform.scale.x, transform.scale.y);
+    //rect(0, 0,  transform.scale.x, transform.scale.y);
+    image(asteroid, 0, 0, transform.scale.x, transform.scale.y);
     
     popMatrix(); 
     
@@ -49,7 +50,7 @@ public abstract class Asteroid extends MonoBehaviour
   {
     ast--;
     
-   for(int i = 0; i < 15; i++)
+   for(int i = 0; i < 50; i++)
    {
      Instantiate(new Fire(transform.position, transform.direction.copy().rotate(radians(random(0, 360))),  color(100)));
    }
