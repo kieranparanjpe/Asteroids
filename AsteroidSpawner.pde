@@ -38,7 +38,7 @@ public class AsteroidSpawner extends MonoBehaviour
     
     if(millis() > ufoSpawned + nextUFO)
     {
-      CreateUFO();
+      //CreateUFO();
     }
    }
    

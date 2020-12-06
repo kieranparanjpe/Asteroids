@@ -1,4 +1,7 @@
 
+//The below code for detecting whether or not two line segments are intersecting comes from:
+//https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/?ref=lbp
+
 boolean OnSegment(PVector p, PVector q, PVector r) 
 { 
     if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) && 
@@ -56,10 +59,7 @@ boolean LinesIntersect(PVector p1, PVector q1, PVector p2, PVector q2)
     return false; // Doesn't fall in any of the above cases 
 } 
 
-public float DotProduct(PVector a, PVector b)
-{
-  return (a.x * b.x) + (a.y * b.y);
-}
+//End of code from https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/?ref=lbp
 
 public boolean PointInRect(PVector point, PVector rectPosition, PVector rectScale)
 {

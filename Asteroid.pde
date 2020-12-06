@@ -43,7 +43,7 @@ public abstract class Asteroid extends MonoBehaviour
     PVector n = collider.Normal().copy();
     
     transform.position.add(n.setMag(2));
-    transform.direction.rotate(radians(random(150, 210)));
+    transform.direction.rotate(radians(random(60, 120)));
   }  
   
   public void Die()

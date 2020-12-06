@@ -48,7 +48,7 @@ public class MonoBehaviour
 
   }
   
-    public void OnPhysicsCollide(EdgeCollider collider)
+  public void OnPhysicsCollide(EdgeCollider collider)
   {    
     transform.velocity = new PVector(0, 0);
     

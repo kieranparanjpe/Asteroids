@@ -7,7 +7,7 @@ public void Menu()
   text("Just Some game...", width / 2, 200);
     textSize(15);
 
-    text("press 'e' (or 'E') to win", width / 2, 250);
+    text("press 'e' (or 'E') to win, 'p' to pause", width / 2, 250);
     text("Made by: Kieran Paranjpe", width / 2, 700);
 
   for(int i = 0; i < menu.size(); i++)
@@ -20,6 +20,8 @@ public void Game()
 {
   background(bg);
   image(backg, width / 2, height / 2);
+  
+  
   if(p)
     state = States.PAUSE;
     
@@ -88,7 +90,7 @@ public void GameOver()
   image(backg, width / 2, height / 2);
   textSize(30);
   fill(255);
-  text("Ur Bad :(", width / 2, 200);
+  text("mad lol?", width / 2, 200);
   for(int i = 0; i < over.size(); i++)
   {
     over.get(i).Update();
@@ -97,7 +99,7 @@ public void GameOver()
 
 public void Win()
 {
-      background(0);
+  background(0);
   image(backg, width / 2, height / 2);
 
   textSize(30);

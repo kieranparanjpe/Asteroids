@@ -15,6 +15,8 @@ public class SpaceShip extends MonoBehaviour
   private int lastInvince = 0;
   
   private PImage image;
+  private PImage otherImage;
+  private PImage otherotherimage;
   
   public SpaceShip()
   {    
@@ -31,6 +33,8 @@ public class SpaceShip extends MonoBehaviour
 
     
     image = loadImage("SpaceShip.png");
+    otherImage = loadImage("SpaceShipOther.png");
+    otherotherimage = image;
   }
   
   @Override
@@ -49,11 +53,19 @@ public class SpaceShip extends MonoBehaviour
     rotate(transform.direction.heading());//angle = atan(direction.y/direction.x); 
     
     fill(0);
-    image(image, 0, 0, transform.scale.x, transform.scale.y);
+    image(otherotherimage, 0, 0, transform.scale.x, transform.scale.y);
     
     popMatrix();    
     
-
+    if(bg == 0)
+    {
+      otherotherimage = image;
+    }
+    else
+    {
+      otherotherimage = otherImage; 
+    }
+  
     
     if(q && millis() - fireRate > lastFired)
     {
